@@ -8,6 +8,6 @@ Standards-Version: 3.9.1
 Package: python-gnucashtoolset
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends}, 
-         python-gnucash
+         python-gnucash, python-esr
 Description: tools to manipulate/export gnucash data
  tools to manipulate/export gnucash data

@@ -1,3 +1,10 @@
+python-gnucashtoolset (0.0.2-1) UNRELEASED; urgency=medium
+
+  * new upstream
+  * add print-esr for printing esr file from swiss post 
+
+ -- Benedikt Trefzer <trefzer@apollon.a2x.ch>  Mon, 26 Jan 2015 15:04:02 +0100
+
 python-gnucashtoolset (0.0.1-1) unstable; urgency=low
 
   * Initial
