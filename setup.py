@@ -14,7 +14,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.0.1',
+    version='0.0.2',
 
     description='gnucash toolset to manipulate gnucash data',
     long_description=long_description,
@@ -69,6 +69,7 @@ setup(
     # https://packaging.python.org/en/latest/technical.html#install-requires-vs-requirements-files
     install_requires=[
         #'python-gnucash',
+        'python-esr',
     ],
 
     # To provide executable scripts, use entry points in preference to the
@@ -77,6 +78,7 @@ setup(
     entry_points={
         'console_scripts': [
             'gnucash-toolset=gnucashtoolset.shell:gnucash_toolset',
+            'print-esr=gnucashtoolset.print_esr:run',
         ],
     },
 )
