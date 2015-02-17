@@ -1,4 +1,10 @@
-python-gnucashtoolset (0.0.2-1) UNRELEASED; urgency=medium
+python-gnucashtoolset (0.0.3-1) cirrax; urgency=medium
+
+  * new upstream
+
+ -- Benedikt Trefzer <trefzer@apollon.a2x.ch>  Tue, 17 Feb 2015 16:41:17 +0100
+
+python-gnucashtoolset (0.0.2-1) cirrax; urgency=medium
 
   * new upstream
   * add print-esr for printing esr file from swiss post 

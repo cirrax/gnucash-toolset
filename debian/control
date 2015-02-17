@@ -9,5 +9,5 @@ Package: python-gnucashtoolset
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends}, 
          python-gnucash, python-esr
-Description: tools to manipulate/export gnucash data
- tools to manipulate/export gnucash data
+Description: tools to manipulate/export/import gnucash data
+ tools to manipulate/export/import gnucash data
