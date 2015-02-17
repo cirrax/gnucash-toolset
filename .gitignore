@@ -1,6 +1,5 @@
 gnucashtoolset.egg-info
 dist
 build
-debian
 *.pyc
 
