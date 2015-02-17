@@ -1,6 +1,8 @@
 gnucash-toolset
 ===============
 
-Several scripts to access and manipulate gnucash data.
+Access and manipulate gnucash data.
+Import JSON files into gnucash.
+
 See README for details.
 
