@@ -39,12 +39,12 @@ def gnucash_toolset():
 csv-customers  : Create a CSV file with all customers. Ready to import with gnucash.
 csv-vendors    : Create a CSV file with all vendors. Ready to import with gnucash.
 create-copy    : Create a copy of gnucash data. Data copied are: Accounts, Customers, Vendors.
-                 Data NOT copied: Bookings, Invoices, Bills.
-                 Data to be copied, but not yet implemented: Terms, Taxes, Employees, Options.
+                 Data NOT copied: Bookings, Invoices, Bills, Transactions.
+                 Data to be copied, but not yet implemented: Terms, Taxes, Employees, Jobs, Options.
                  This can be used to create a new file after closing period.
 copy-opening   : copy opening-amounts from another gnucash instance. (Not yet implemented).
 """,)
-   parser.add_argument('in_file', help='Path to gnucash file to take out values')
+   parser.add_argument('in_file', help='Path/file for input')
    parser.add_argument('out_file', help='Path/file for output')
    parser.add_argument('--loglevel', help='Log level', default='INFO')
    args=parser.parse_args()
