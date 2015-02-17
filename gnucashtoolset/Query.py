@@ -42,6 +42,20 @@ from gnucash import \
     QOF_COMPARE_GTE, \
     QOF_COMPARE_NEQ
 
+def getJobs(book):
+
+    query = gnucash.Query()
+    query.search_for('gncJob')
+    query.set_book(book)
+    jobs = []
+
+    for result in query.run():
+         jobs.append(gnucash.gnucash_business.Job(instance=result))
+
+    query.destroy()
+
+    return jobs
+
 def getCustomers(book):
 
     query = gnucash.Query()
@@ -69,7 +83,6 @@ def getVendors(book):
     query.destroy()
 
     return vendors
-
 
 
 #res=getCustomers(session.book)

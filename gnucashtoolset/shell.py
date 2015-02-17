@@ -19,15 +19,19 @@
 from argparse import ArgumentParser    as ArgArgumentParser
 from argparse import RawTextHelpFormatter as RawTextHelpFormatter
 
+import logging
+
 import Session as Session
 import Export as Export
 import Copy as Copy
+import JsonImport as JsonImport
 
 def gnucash_toolset():
    commands={
            'csv-customers'     :  csv_customer,
            'csv-vendors'       :  csv_vendors,
            'create-copy'       :  create_copy,
+           'json-import'       :  json_import,
             }
 
    parser=ArgArgumentParser(description='Gnucash toolset to export/manipulate gnucash data', formatter_class=RawTextHelpFormatter)
@@ -37,14 +41,18 @@ def gnucash_toolset():
 csv-customers  : Create a CSV file with all customers. Ready to import with gnucash.
 csv-vendors    : Create a CSV file with all vendors. Ready to import with gnucash.
 create-copy    : Create a copy of gnucash data. Data copied are: Accounts, Customers, Vendors.
-                 Data NOT copied: Bookings, Invoices, Bills.
-                 Data to be copied, but not yet implemented: Terms, Taxes, Employees, Options.
+                 Data NOT copied: Bookings, Invoices, Bills, Transactions.
+                 Data to be copied, but not yet implemented: Terms, Taxes, Employees, Jobs, Options.
                  This can be used to create a new file after closing period.
 copy-opening   : copy opening-amounts from another gnucash instance. (Not yet implemented).
+json-import    : Imports a json file (in_file) into gnucash (out_file).
 """,)
-   parser.add_argument('in_file', help='Path to gnucash file to take out values')
+   parser.add_argument('in_file', help='Path/file for input')
    parser.add_argument('out_file', help='Path/file for output')
+   parser.add_argument('--loglevel', help='Log level', default='INFO')
    args=parser.parse_args()
+
+   logging.basicConfig(level=getattr(logging, args.loglevel.upper()))
 
    commands[args.command](args=args)
 
@@ -73,4 +81,10 @@ def create_copy(args):
   Session.endSession(session)
   Session.endSession(session_new)
 
+def json_import(args):
+  session=Session.startSession(file=args.out_file,  ignore_lock=False)
+  ji=JsonImport.JsonImport(file=args.in_file)
+  ji.post(session.book)
+  session.save()
+  Session.endSession(session)
 
