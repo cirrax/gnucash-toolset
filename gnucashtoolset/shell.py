@@ -19,6 +19,8 @@
 from argparse import ArgumentParser    as ArgArgumentParser
 from argparse import RawTextHelpFormatter as RawTextHelpFormatter
 
+import logging
+
 import Session as Session
 import Export as Export
 import Copy as Copy
@@ -44,7 +46,10 @@ copy-opening   : copy opening-amounts from another gnucash instance. (Not yet im
 """,)
    parser.add_argument('in_file', help='Path to gnucash file to take out values')
    parser.add_argument('out_file', help='Path/file for output')
+   parser.add_argument('--loglevel', help='Log level', default='INFO')
    args=parser.parse_args()
+
+   logging.basicConfig(level=getattr(logging, args.loglevel.upper()))
 
    commands[args.command](args=args)
 
