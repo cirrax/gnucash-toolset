@@ -87,8 +87,8 @@ class JsonImport():
          if d.has_key('BillID'):
             invoice=book.InvoiceLookupByID(d['BillID'])
 
-         try: invoice 
-         except: raise LookupError('Invoice not found for payment')
+         if  not invoice:
+             raise LookupError('Invoice not found for payment')
 
          if not invoice.IsPosted():
               raise LookupError('Invoice is not yet posted')
