@@ -17,7 +17,7 @@
 #   
 
 import sys
-import simplejson as json
+import json as json
 import logging
 
 import datetime
@@ -32,16 +32,34 @@ DENOM_QUANTITY=1000
 DENOM_PRICE=1000
 DENOM_AMOUNT=1000
 
+def json_input(obj):
+    if isinstance(obj, list):
+        l=[]
+        for element in obj:
+            l.append(json_input(element))
+        return l
+
+    if isinstance(obj, dict):
+        d={}
+        for key in obj:
+            d[key] = json_input(obj[key])
+        return d
+
+    if isinstance(obj, unicode):
+        return obj.encode('utf-8')
+
+    return obj
+
+
 class JsonImport():
     def __init__(self, file):
         infile = open(file, 'r')
 
         with infile:
-          try:
-              self.src = json.load(infile,
-                              use_decimal=True)
-          except ValueError:
-              raise SystemExit(sys.exc_info()[1])
+            try:
+                self.src = json.load(infile, object_hook=json_input)
+            except ValueError:
+                raise SystemExit(sys.exc_info()[1])
 
     def post(self,book):
          for element in self.src:
