@@ -67,22 +67,22 @@ class JsonImport():
                  getattr(self, '_' + item)(book, element[item])
 
     def _transfer(self,book,d):
-         from_ac=book.get_root_account().lookup_by_code(d['TransferFromAC'])
-         try: from_ac
-         except: raise LookupError('TransferFromAC not found')
+        from_ac=book.get_root_account().lookup_by_code(d['TransferFromAC'])
+        if not from_ac:
+            raise LookupError('TransferFromAC not found')
 
 
-         to_ac=book.get_root_account().lookup_by_code(d['TransferToAC'])
-         try: to_ac
-         except: raise LookupError('TransferToAC not found')
+        to_ac=book.get_root_account().lookup_by_code(d['TransferToAC'])
+        if not to_ac:
+            raise LookupError('TransferToAC not found')
 
         if d.has_key('Currency'):
             currency=book.get_table().lookup('CURRENCY', d['Currency'])
         else:
             currency=book.get_table().lookup('CURRENCY', 'CHF')
 
-         try: currency
-         except: raise LookupError('Currency not found')
+        if not currency:
+            raise LookupError('Currency not found')
 
         trans = Transaction(book)
         trans.BeginEdit()
@@ -101,21 +101,22 @@ class JsonImport():
 
 
     def _payment(self,book,d):
-         if d.has_key('BillID'):
+        account=book.get_root_account().lookup_by_code(d['TransferAC'])
+        if not account:
+            raise LookupError('TransferAC not found')
+
+        if d.has_key('BillID'):
             invoice=book.InvoiceLookupByID(d['BillID'])
 
-         if  not invoice:
-             raise LookupError('Invoice not found for payment')
+        if not invoice:
+             logging.error('Invoice {} not found'.format(d.get('BillID','unknown')))
 
-         if not invoice.IsPosted():
-              raise LookupError('Invoice is not yet posted')
+        else:
+             if not invoice.IsPosted():
+                 logging.warn('Invoice {} is not yet posted'.format(d.get('BillID','unknown')))
 
-         if invoice.IsPaid():
-              raise LookupError('Invoice is already paid')
-
-         account=book.get_root_account().lookup_by_code(d['TransferAC'])
-         try: account
-         except: raise LookupError('TransferAC not found')
+             if invoice.IsPaid():
+                 logging.warn('Invoice {} is already paid, create credit note'.format(d.get('BillID','unknown')))
 
              invoice.ApplyPayment( None,  account,
                                GncNumeric(num=d.get('Amount',0)*DENOM_AMOUNT, denom=DENOM_AMOUNT), GncNumeric(1),
@@ -132,8 +133,8 @@ class JsonImport():
         else:
             currency=book.get_table().lookup('CURRENCY', 'CHF')
 
-         try: currency
-         except: raise LookupError('Currency not found')
+        if not currency:
+            raise LookupError('Currency not found')
 
         if d.has_key('JobID'):
             for j in Query.getJobs(book):
@@ -182,15 +183,15 @@ class JsonImport():
                 entry.SetInvTaxTable(taxtable)
 
             entry.SetInvTaxIncluded(ent.get('TaxIncluded',entry.GetInvTaxIncluded()))
-            try: book.get_root_account().lookup_by_code(ent.get('IncomeAC'))
-            except: raise LookupError('IncomeAC not found')
+            if not book.get_root_account().lookup_by_code(ent.get('IncomeAC')):
+                raise LookupError('IncomeAC not found')
             entry.SetInvAccount(book.get_root_account().lookup_by_code(ent.get('IncomeAC')))
             
-         ar=book.get_root_account().lookup_by_code(d['AReceivableAC'])
-         try: ar
-         except: raise LookupError('AReceivableAC not found')
-         # post invoice 
-         self.obj.PostToAccount(ar,datetime.date.today(), datetime.date.today(),ent.get('PostMsg',''),  False, False)
+        ar=book.get_root_account().lookup_by_code(d['AReceivableAC'])
+        if not ar:
+            raise LookupError('AReceivableAC not found')
+        # post invoice
+        self.obj.PostToAccount(ar,datetime.date.today(), datetime.date.today(),ent.get('PostMsg',''),  False, False)
 
         logging.info('Invoice {} posted to {}'.format(d['ID'], d['AReceivableAC']))
         
