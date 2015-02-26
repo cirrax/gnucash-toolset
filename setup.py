@@ -14,7 +14,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.0.3',
+    version='0.0.4',
 
     description='gnucash toolset to manipulate gnucash data',
     long_description=long_description,
@@ -70,6 +70,7 @@ setup(
     install_requires=[
         #'python-gnucash',
         'python-esr',
+        'jinja2',
     ],
 
     # To provide executable scripts, use entry points in preference to the
