@@ -50,6 +50,7 @@ json-import    : Imports a json file (in_file) into gnucash (out_file).
    parser.add_argument('in_file', help='Path/file for input')
    parser.add_argument('out_file', help='Path/file for output')
    parser.add_argument('--loglevel', help='Log level', default='INFO')
+   parser.add_argument('--date_format', help='Date format to convert from in JSON files.', default='%Y-%m-%dT%H:%M:%S')
    args=parser.parse_args()
 
    logging.basicConfig(level=getattr(logging, args.loglevel.upper()))
@@ -83,7 +84,7 @@ def create_copy(args):
 
 def json_import(args):
   session=Session.startSession(file=args.out_file,  ignore_lock=False)
-  ji=JsonImport.JsonImport(file=args.in_file)
+  ji=JsonImport.JsonImport(file=args.in_file, date_format=args.date_format)
   ji.post(session.book)
   session.save()
   Session.endSession(session)
