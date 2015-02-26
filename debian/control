@@ -8,6 +8,6 @@ Standards-Version: 3.9.1
 Package: python-gnucashtoolset
 Architecture: all
 Depends: ${misc:Depends}, ${python:Depends}, 
-         python-gnucash, python-esr
+         python-gnucash, python-esr, python-jinja2
 Description: tools to manipulate/export/import gnucash data
  tools to manipulate/export/import gnucash data
