@@ -1,3 +1,10 @@
+python-gnucashtoolset (0.0.4-1) cirrax; urgency=medium
+
+  * New upstream version 0.0.4
+  * add python-jinja2 as required package
+
+ -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Fri, 27 Feb 2015 00:36:53 +0100
+
 python-gnucashtoolset (0.0.3-1) cirrax; urgency=medium
 
   * new upstream
