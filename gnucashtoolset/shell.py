@@ -20,17 +20,20 @@ from argparse import ArgumentParser    as ArgArgumentParser
 from argparse import RawTextHelpFormatter as RawTextHelpFormatter
 
 import logging
+import jinja2
 
-import Session as Session
-import Export as Export
-import Copy as Copy
-import JsonImport as JsonImport
+import Session
+import Invoice
+import Export
+import Copy
+import JsonImport
 
 def gnucash_toolset():
    commands={
            'csv-customers'     :  csv_customer,
            'csv-vendors'       :  csv_vendors,
            'create-copy'       :  create_copy,
+           'get-bill'          :  get_bill,
            'json-import'       :  json_import,
             }
 
@@ -45,12 +48,15 @@ create-copy    : Create a copy of gnucash data. Data copied are: Accounts, Custo
                  Data to be copied, but not yet implemented: Terms, Taxes, Employees, Jobs, Options.
                  This can be used to create a new file after closing period.
 copy-opening   : copy opening-amounts from another gnucash instance. (Not yet implemented).
+get-bill       : Export a bill from gnucash (in_file) into a jinja template.
 json-import    : Imports a json file (in_file) into gnucash (out_file).
 """,)
    parser.add_argument('in_file', help='Path/file for input')
    parser.add_argument('out_file', help='Path/file for output')
    parser.add_argument('--loglevel', help='Log level', default='INFO')
-   parser.add_argument('--date_format', help='Date format to convert from in JSON files.', default='%Y-%m-%dT%H:%M:%S')
+   parser.add_argument('--template', help='jinja2 template to use for get-bill')
+   parser.add_argument('--invoice', help='invoice ID to usefor get-bill')
+   parser.add_argument('--date_format', help='Date format in JSON parts/files.', default='%Y-%m-%dT%H:%M:%S')
    args=parser.parse_args()
 
    logging.basicConfig(level=getattr(logging, args.loglevel.upper()))
@@ -81,6 +87,23 @@ def create_copy(args):
   session_new.save()
   Session.endSession(session)
   Session.endSession(session_new)
+
+def get_bill(args):
+  session=Session.startSession(file=args.in_file,  ignore_lock=True)
+  invoice=Invoice.Invoice(session.book.InvoiceLookupByID(args.invoice))
+
+  env = jinja2.Environment(loader=jinja2.FileSystemLoader(args.template.rpartition('/')[0]))
+  env.filters['date'] = Invoice.date_filter
+  env.filters['fromjson'] = lambda x: Invoice.fromjson_filter(x, date_format=args.date_format)
+  template=env.get_template(args.template.rpartition('/')[2])
+
+  if '-' == args.out_file:
+      print template.render(invoice=invoice.to_dict()).encode('utf-8')
+  else:
+      with open(args.out_file, "wb") as f:
+          f.write(template.render(invoice=invoice.to_dict()).encode('utf-8'))
+
+  Session.endSession(session)
 
 def json_import(args):
   session=Session.startSession(file=args.out_file,  ignore_lock=False)
