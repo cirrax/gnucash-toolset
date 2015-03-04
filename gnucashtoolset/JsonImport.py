@@ -145,8 +145,10 @@ class JsonImport():
                     owner=j
                     customer=j.GetOwner()
 
-            if not owner:
-                raise LookupError('JobID not found')
+            try:
+                customer
+            except NameError:
+                raise LookupError('JobID ({0}) not found'.format(d['JobID']))
 
         else:
             owner=book.CustomerLookupByID(d['CustomerID'].decode(GC_ENC))
