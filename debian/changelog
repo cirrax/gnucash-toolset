@@ -1,3 +1,9 @@
+python-gnucashtoolset (0.0.5-1) cirrax; urgency=medium
+
+  * New upstream version 0.0.5
+
+ -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Wed, 04 Mar 2015 15:28:14 +0100
+
 python-gnucashtoolset (0.0.4-1) cirrax; urgency=medium
 
   * New upstream version 0.0.4
