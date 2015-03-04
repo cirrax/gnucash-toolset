@@ -115,34 +115,27 @@ class Entry(BaseAccounting):
 	if self.obj==None:
 	    return {}
         return {
-            'Date'        : self.obj.GetDate(),
-            'DateEntered' : self.obj.GetDateEntered(),
-            'Action'      : self.obj.GetAction().decode(GC_ENC),
-            'Description' : self.obj.GetDescription().decode(GC_ENC),
-            'Notes'       : self.obj.GetNotes().decode(GC_ENC),
-            'Quantity'    : self.obj.GetQuantity().to_double(),
-            'Price'       : self.obj.GetInvPrice().to_double(),
-            'TaxIncluded' : self.obj.GetInvTaxIncluded(),
-            'Taxable'     : self.obj.GetInvTaxable(),
-            'TaxTable'    : Tax(obj=self.obj.GetInvTaxTable()).to_dict(),
-            'AccountTable': Account(obj=self.obj.GetInvAccount()).to_dict(),
-            'CalcDiscount': self._calc_discount(),
-            'CalcSubtotal': self._calc_amount('subtotal'),
+            'Date'             : self.obj.GetDate(),
+            'DateEntered'      : self.obj.GetDateEntered(),
+            'Action'           : self.obj.GetAction().decode(GC_ENC),
+            'Description'      : self.obj.GetDescription().decode(GC_ENC),
+            'Notes'            : self.obj.GetNotes().decode(GC_ENC),
+            'Quantity'         : self.obj.GetQuantity().to_double(),
+            'Price'            : self.obj.GetInvPrice().to_double(),
+            'TaxIncluded'      : self.obj.GetInvTaxIncluded(),
+            'Taxable'          : self.obj.GetInvTaxable(),
+            'TaxTable'         : Tax(obj=self.obj.GetInvTaxTable()).to_dict(),
+            'AccountTable'     : Account(obj=self.obj.GetInvAccount()).to_dict(),
+            'DocDiscountValue' : self._setGncNumeric(self.obj.GetDocDiscountValue(True,True,False)).to_double(),
+            'DocTaxValue'      : self._setGncNumeric(self.obj.GetDocTaxValue(True,True,False)).to_double(),
+            'DocValue'         : self._setGncNumeric(self.obj.GetDocValue(True,True,False)).to_double(),
+            'BalDiscountValue' : self._setGncNumeric(self.obj.GetBalDiscountValue(True,True)).to_double(),
+            'BalTaxValue'      : self._setGncNumeric(self.obj.GetBalTaxValue(True,True)).to_double(),
+            'BalValue'         : self._setGncNumeric(self.obj.GetBalValue(True,True)).to_double(),
         }
 
-    def _calc_discount(self):
-        # dummy function, calculates amount for discount, currently 0 returned !
-        return 0
-
-    def _calc_amount(self, typ):
-        # TODO: This function should include Tax and discount calculation.
-        amount={}
-        quantity=self.obj.GetQuantity().to_double()
-        price=self.obj.GetInvPrice().to_double()
-        amount['subtotal']=quantity * price
-        amount['total']=quantity * price
-
-        return amount[typ]
+    def _setGncNumeric(self,val):
+       return GncNumeric(val.num, val.denom)
 
 class Customer(BaseAccounting):
 
