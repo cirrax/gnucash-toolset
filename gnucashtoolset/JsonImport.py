@@ -164,9 +164,6 @@ class JsonImport():
 
         self.obj.SetTerms(customer.GetTerms())
 
-        print d.get('Notes',self.obj.GetNotes().decode(GC_ENC))
-        print d.get('Notes',self.obj.GetNotes().decode(GC_ENC)).encode(GC_ENC)
-
         self.obj.SetNotes(d.get('Notes',self.obj.GetNotes().decode(GC_ENC)).encode(GC_ENC))
 
         taxtable=customer.GetTaxTable()
