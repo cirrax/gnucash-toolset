@@ -28,7 +28,7 @@ from gnucash import Session, Account, Transaction, Split, GncNumeric
 import Query
 
 DENOM_QUANTITY=1000
-DENOM_PRICE=1000
+DENOM_PRICE=1000000
 DENOM_AMOUNT=1000
 # Gnucash encoding:
 GC_ENC='utf-8'
@@ -145,8 +145,10 @@ class JsonImport():
                     owner=j
                     customer=j.GetOwner()
 
-            if not owner:
-                raise LookupError('JobID not found')
+            try:
+                customer
+            except NameError:
+                raise LookupError('JobID ({0}) not found'.format(d['JobID']))
 
         else:
             owner=book.CustomerLookupByID(d['CustomerID'].decode(GC_ENC))
@@ -164,16 +166,13 @@ class JsonImport():
 
         self.obj.SetTerms(customer.GetTerms())
 
-        print d.get('Notes',self.obj.GetNotes().decode(GC_ENC))
-        print d.get('Notes',self.obj.GetNotes().decode(GC_ENC)).encode(GC_ENC)
-
         self.obj.SetNotes(d.get('Notes',self.obj.GetNotes().decode(GC_ENC)).encode(GC_ENC))
 
         taxtable=customer.GetTaxTable()
         for ent in d['entries']:
             entry=gcEntry(book=book,invoice=self.obj)
 
-            entry.SetDateEntered(datetime.date.today())
+            entry.SetDateEntered(ent.get('DateEntered',datetime.date.today()))
             entry.SetAction(ent.get('Action',entry.GetAction().decode(GC_ENC)).encode(GC_ENC))
             entry.SetNotes(ent.get('Notes',entry.GetNotes().decode(GC_ENC)).encode(GC_ENC))
             entry.SetDescription(ent.get('Description',entry.GetDescription().decode(GC_ENC)).encode(GC_ENC))
@@ -193,11 +192,11 @@ class JsonImport():
                 raise LookupError('IncomeAC not found')
             entry.SetInvAccount(book.get_root_account().lookup_by_code(ent.get('IncomeAC').encode(GC_ENC)))
             
-        ar=book.get_root_account().lookup_by_code(d['AReceivableAC'].encode(GC_ENC))
+        ar=book.get_root_account().lookup_by_code(str(d['AReceivableAC']))
         if not ar:
             raise LookupError('AReceivableAC not found')
         # post invoice
-        self.obj.PostToAccount(ar,datetime.date.today(), datetime.date.today(),ent.get('PostMsg',''),  False, False)
+        self.obj.PostToAccount(ar,datetime.date.today(), datetime.date.today(),d.get('PostMsg',''),  False, False)
 
         logging.info('Invoice {} posted to {}'.format(d['ID'], d['AReceivableAC']))
         

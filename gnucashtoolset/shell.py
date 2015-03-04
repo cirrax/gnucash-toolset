@@ -95,6 +95,8 @@ def get_bill(args):
   env = jinja2.Environment(loader=jinja2.FileSystemLoader(args.template.rpartition('/')[0]))
   env.filters['date'] = Invoice.date_filter
   env.filters['fromjson'] = lambda x: Invoice.fromjson_filter(x, date_format=args.date_format)
+  env.filters['isorting'] = lambda x,y,z: Invoice.isorting_filter(x, y, z)
+
   template=env.get_template(args.template.rpartition('/')[2])
 
   if '-' == args.out_file:
