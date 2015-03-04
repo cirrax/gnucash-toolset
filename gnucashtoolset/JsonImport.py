@@ -28,7 +28,7 @@ from gnucash import Session, Account, Transaction, Split, GncNumeric
 import Query
 
 DENOM_QUANTITY=1000
-DENOM_PRICE=1000
+DENOM_PRICE=1000000
 DENOM_AMOUNT=1000
 # Gnucash encoding:
 GC_ENC='utf-8'
