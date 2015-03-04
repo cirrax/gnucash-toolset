@@ -173,7 +173,7 @@ class JsonImport():
         for ent in d['entries']:
             entry=gcEntry(book=book,invoice=self.obj)
 
-            entry.SetDateEntered(datetime.date.today())
+            entry.SetDateEntered(ent.get('DateEntered',datetime.date.today()))
             entry.SetAction(ent.get('Action',entry.GetAction().decode(GC_ENC)).encode(GC_ENC))
             entry.SetNotes(ent.get('Notes',entry.GetNotes().decode(GC_ENC)).encode(GC_ENC))
             entry.SetDescription(ent.get('Description',entry.GetDescription().decode(GC_ENC)).encode(GC_ENC))
