@@ -196,7 +196,7 @@ class JsonImport():
         if not ar:
             raise LookupError('AReceivableAC not found')
         # post invoice
-        self.obj.PostToAccount(ar,datetime.date.today(), datetime.date.today(),ent.get('PostMsg',''),  False, False)
+        self.obj.PostToAccount(ar,datetime.date.today(), datetime.date.today(),d.get('PostMsg',''),  False, False)
 
         logging.info('Invoice {} posted to {}'.format(d['ID'], d['AReceivableAC']))
         
