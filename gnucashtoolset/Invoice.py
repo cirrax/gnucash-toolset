@@ -25,8 +25,6 @@ from gnucash import GncNumeric
 import json
 import JsonImport
 
-DENOM_QUANTITY=1000
-DENOM_PRICE=1000
 GC_ENC='utf-8'
 
 def fromjson_filter(x, date_format):
