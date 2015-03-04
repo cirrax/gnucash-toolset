@@ -41,6 +41,21 @@ def date_filter(x, y):
     except AttributeError:
         return x
 
+def _sorting_index(lindex, x):
+    try:
+        return lindex.index(x)
+    except ValueError:
+        for i, elem in enumerate(lindex):
+            print i
+            print elem
+            if elem in x:
+                return i
+
+    return len(lindex) + 1
+
+def isorting_filter(value, lindex, attr):
+    return sorted(value, key=lambda x: _sorting_index(lindex,x[attr]) )
+
 class BaseAccounting():
     def __init__(self, obj=None):
         self.obj=obj
