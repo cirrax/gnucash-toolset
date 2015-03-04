@@ -192,7 +192,7 @@ class JsonImport():
                 raise LookupError('IncomeAC not found')
             entry.SetInvAccount(book.get_root_account().lookup_by_code(ent.get('IncomeAC').encode(GC_ENC)))
             
-        ar=book.get_root_account().lookup_by_code(d['AReceivableAC'].encode(GC_ENC))
+        ar=book.get_root_account().lookup_by_code(str(d['AReceivableAC']))
         if not ar:
             raise LookupError('AReceivableAC not found')
         # post invoice
