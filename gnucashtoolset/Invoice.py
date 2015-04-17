@@ -44,8 +44,6 @@ def _sorting_index(lindex, x):
         return lindex.index(x)
     except ValueError:
         for i, elem in enumerate(lindex):
-            print i
-            print elem
             if elem in x:
                 return i
 
