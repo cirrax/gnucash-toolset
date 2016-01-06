@@ -53,6 +53,16 @@ def json_input(obj, date_format='%Y-%m-%dT%H:%M:%S'):
 
     return obj
 
+def to_str(t, encoding='utf-8'):
+    if isinstance(t, str):
+        return t
+    if isinstance(t, int):
+        return str(t)
+    if isinstance(t, float):
+        return str(t)
+
+    return t.encode(encoding)
+
 
 class JsonImport():
     def __init__(self, file, date_format):
@@ -109,10 +119,10 @@ class JsonImport():
             raise LookupError('TransferAC not found')
 
         if d.has_key('BillID'):
-            invoice=book.InvoiceLookupByID(d['BillID'].encode(GC_ENC))
+            invoice=book.InvoiceLookupByID(to_str(d['BillID'],GC_ENC))
 
         if not invoice:
-             logging.error('Invoice {0} not found'.format(d.get('BillID','unknown').encode(GC_ENC)))
+             logging.error('Invoice {0} not found'.format(d.get('BillID','unknown')))
 
         else:
              if not invoice.IsPosted():
@@ -124,7 +134,8 @@ class JsonImport():
              invoice.ApplyPayment( None,  account,
                                GncNumeric(num=d.get('Amount',0)*DENOM_AMOUNT, denom=DENOM_AMOUNT), GncNumeric(1),
                                d.get('Date',datetime.date.today()),
-                               d.get('Memo','File Import').decode(GC_ENC), d['BillID'].decode(GC_ENC))
+                               to_str(d.get('Memo','File Import'),GC_ENC),
+                               to_str(d.get('BillID','unknown'),GC_ENC))
 
              logging.info('Payment of {0} for bill {1} entered (Memo: {2})'.format(d.get('Amount',0), d['BillID'], d.get('Memo','File Import')))
 
