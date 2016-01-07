@@ -1,3 +1,14 @@
+python-gnucashtoolset (0.0.6-1) cirrax; urgency=medium
+
+  * New version 0.0.6
+  * remove some debugging output
+  * fix string conversion
+  * copy customer jobs
+  * remove Tax and Terms from Copy (fix unusable gnucash file)
+    (Workaround to copy manually in source)
+
+ -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Wed, 06 Jan 2016 11:21:35 +0100
+
 python-gnucashtoolset (0.0.5-1) cirrax; urgency=medium
 
   * New upstream version 0.0.5
