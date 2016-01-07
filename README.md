@@ -5,7 +5,8 @@ Access and manipulate gnucash data.
 Import JSON data into gnucash.
 
 ```
-usage: gnucash-toolset [-h] [--loglevel LOGLEVEL]
+usage: gnucash-toolset [-h] [--loglevel LOGLEVEL] [--template TEMPLATE]
+                       [--invoice INVOICE] [--date_format DATE_FORMAT]
                        {csv-customers,csv-vendors,get-bill,create-copy,json-import}
                        in_file out_file
 
@@ -21,7 +22,7 @@ positional arguments:
                                          Data to be copied, but not yet implemented: Terms, Taxes, Employees, Jobs, Options.
                                          This can be used to create a new file after closing period.
                         copy-opening   : copy opening-amounts from another gnucash instance. (Not yet implemented).
-                        get-bill       : Export a bill in a json file (out_file) from gnucash (in_file).
+                        get-bill       : Export a bill from gnucash (in_file) into a jinja template.
                         json-import    : Imports a json file (in_file) into gnucash (out_file).
   in_file               Path/file for input
   out_file              Path/file for output
@@ -29,6 +30,10 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   --loglevel LOGLEVEL   Log level
+  --template TEMPLATE   jinja2 template to use for get-bill
+  --invoice INVOICE     invoice ID to usefor get-bill
+  --date_format DATE_FORMAT
+                        Date format in JSON parts/files.
 ```
 
 Example JSON file for import:
