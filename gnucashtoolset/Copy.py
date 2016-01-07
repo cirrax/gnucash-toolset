@@ -51,10 +51,16 @@ def _recursiveCopyAccounts(session, session_new, account, account_new, commodtab
 
 
 def CopyCustomers(session,session_new):
-   attributes=['TaxTableOverride', 'Active',
+   attributes=['Active',
                'Discount',
-               'TaxIncluded', 'Credit', 'Notes', 'TaxTable' ]
-   # Terms
+               'TaxIncluded', 'Credit', 'Notes']
+   # 'TaxTableOverride', 'Terms', 'TaxTable'
+   # These attributes are not copied, and are lost.
+   # you can include them to coppy and manually copy XML from the old XML
+   # file to the new one !
+   # Tables to copy are: <gnc:GncBillTerm version="2.0.0">
+   # and <gnc:GncTaxTable version="2.0.0">
+   # The TaxTable needs to be edited afterwards, since the account reference changed.
 
    commodtable = session_new.book.get_table()
    for customer in Query.getCustomers(session.book):
