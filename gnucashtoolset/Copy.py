@@ -17,7 +17,7 @@
 #   
 
 from gnucash import Account as Account
-from gnucash.gnucash_business import Customer, Vendor, Address
+from gnucash.gnucash_business import Customer, Vendor, Address, Job
 
 import Query as Query
 
@@ -51,10 +51,16 @@ def _recursiveCopyAccounts(session, session_new, account, account_new, commodtab
 
 
 def CopyCustomers(session,session_new):
-   attributes=['TaxTableOverride', 'Active',
+   attributes=['Active',
                'Discount',
-               'TaxIncluded', 'Credit', 'Notes', 'TaxTable' ]
-   # Terms
+               'TaxIncluded', 'Credit', 'Notes']
+   # 'TaxTableOverride', 'Terms', 'TaxTable'
+   # These attributes are not copied, and are lost.
+   # you can include them to coppy and manually copy XML from the old XML
+   # file to the new one !
+   # Tables to copy are: <gnc:GncBillTerm version="2.0.0">
+   # and <gnc:GncTaxTable version="2.0.0">
+   # The TaxTable needs to be edited afterwards, since the account reference changed.
 
    commodtable = session_new.book.get_table()
    for customer in Query.getCustomers(session.book):
@@ -63,6 +69,11 @@ def CopyCustomers(session,session_new):
        customer_new = Customer(session_new.book, customer.GetID(), commod, customer.GetName())
        for attrib in attributes:
           getattr(customer_new, 'Set' + attrib)(getattr(customer, 'Get' + attrib)() )
+
+       for job in customer.GetJoblist(True):
+          job_old = Job(instance=job)
+          if job_old.GetActive() == True:
+             job_new = Job(book=session_new.book, id=job_old.GetID(), owner=customer_new, name=job_old.GetName())
 
        _CopyAddress(customer.GetAddr(),customer_new.GetAddr())
        _CopyAddress(customer.GetShipAddr(),customer_new.GetShipAddr())
@@ -91,7 +102,6 @@ def _CopyAddress(address, address_new ):
     address_new.SetPhone(address.GetPhone())
     address_new.SetFax(address.GetFax())
     address_new.SetEmail(address.GetEmail())
-
 
 def CopyTerms(session,session_new):
    print 'to be implemented'
