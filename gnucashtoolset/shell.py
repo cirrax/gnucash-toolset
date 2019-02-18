@@ -47,12 +47,13 @@ create-copy    : Create a copy of gnucash data. Data copied are: Accounts, Custo
                  Data NOT copied: Bookings, Invoices, Bills, Transactions.
                  Data to be copied, but not yet implemented: Terms, Taxes, Employees, Jobs, Options.
                  This can be used to create a new file after closing period.
+                 Hint: use xml:///path/file for destination file ...
 copy-opening   : copy opening-amounts from another gnucash instance. (Not yet implemented).
 get-bill       : Export a bill from gnucash (in_file) into a jinja template.
 json-import    : Imports a json file (in_file) into gnucash (out_file).
 """,)
-   parser.add_argument('in_file', help='Path/file for input')
-   parser.add_argument('out_file', help='Path/file for output')
+   parser.add_argument('in_file', help='uri to Path/file for input')
+   parser.add_argument('out_file', help='uri to Path/file for output')
    parser.add_argument('--loglevel', help='Log level', default='INFO')
    parser.add_argument('--template', help='jinja2 template to use for get-bill')
    parser.add_argument('--invoice', help='invoice ID to usefor get-bill')
