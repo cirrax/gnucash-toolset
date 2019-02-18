@@ -1,4 +1,10 @@
-python-gnucashtoolset (0.0.8-1) UNRELEASED; urgency=medium
+python-gnucashtoolset (0.0.9-1) UNRELEASED; urgency=medium
+
+  * fix session
+
+ -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Mon, 18 Feb 2019 18:29:29 +0100
+
+python-gnucashtoolset (0.0.8-1) cirrax; urgency=medium
 
   * new version 0.0.8
   * use uri's for files
