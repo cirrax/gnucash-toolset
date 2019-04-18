@@ -20,10 +20,10 @@ import datetime
 from gnucash.gnucash_business import  Invoice as gcInvoice
 from gnucash.gnucash_business import  Entry   as gcEntry
 
-import Query
+from . import Query
 from gnucash import GncNumeric
 import json
-import JsonImport
+from . import JsonImport
 
 GC_ENC='utf-8'
 

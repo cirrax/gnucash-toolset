@@ -25,7 +25,7 @@ from gnucash.gnucash_business import  Invoice as gcInvoice
 from gnucash.gnucash_business import  Entry   as gcEntry
 from gnucash import Session, Account, Transaction, Split, GncNumeric
 
-import Query
+from . import Query
 
 DENOM_QUANTITY=1000
 DENOM_PRICE=1000000

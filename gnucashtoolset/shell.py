@@ -22,11 +22,11 @@ from argparse import RawTextHelpFormatter as RawTextHelpFormatter
 import logging
 import jinja2
 
-import Session
-import Invoice
-import Export
-import Copy
-import JsonImport
+from . import Session
+from . import Invoice
+from . import Export
+from . import Copy
+from . import JsonImport
 
 def gnucash_toolset():
    commands={

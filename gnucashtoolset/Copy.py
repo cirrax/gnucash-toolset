@@ -19,7 +19,7 @@
 from gnucash import Account as Account
 from gnucash.gnucash_business import Customer, Vendor, Address, Job
 
-import Query as Query
+from . import Query as Query
 
 def CopyOptions(session, session_new):
    print 'to be implemented'
