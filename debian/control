@@ -4,13 +4,15 @@ Section: python
 Priority: optional
 Build-Depends: debhelper (>= 11~),
                dh-python,
-               python-setuptools,
-               python-all,
+               python3-setuptools,
+               python3-all,
 Standards-Version: 3.9.1
 
-Package: python-gnucashtoolset
+Package: python3-gnucashtoolset
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, 
-         python-gnucash, python-esr, python-jinja2
+Depends: ${misc:Depends},
+         ${python:Depends},
+         python3-gnucash,
+         python3-jinja2
 Description: tools to manipulate/export/import gnucash data
  tools to manipulate/export/import gnucash data

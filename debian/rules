@@ -4,5 +4,5 @@
 # Wed, 20 Aug 2014 10:10:28 +0200
 
 %:
-	dh $@ --with python2 --buildsystem=python_distutils
+	dh $@ --with python3 --buildsystem=pybuild
 
