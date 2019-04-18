@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 11~),
                dh-python,
                python3-setuptools,
                python3-all,
-Standards-Version: 3.9.1
+Standards-Version: 4.3.0
 
 Package: python3-gnucashtoolset
 Architecture: all
