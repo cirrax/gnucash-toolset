@@ -3,6 +3,7 @@ Maintainer: Benedikt Trefzer <benedikt.trefzer@cirrax.com>
 Section: python
 Priority: optional
 Build-Depends: debhelper (>= 11~),
+               git,
                dh-python,
                python3-setuptools,
                python3-all,
@@ -11,8 +12,11 @@ Standards-Version: 4.3.0
 Package: python3-gnucashtoolset
 Architecture: all
 Depends: ${misc:Depends},
-         ${python:Depends},
+         ${python3:Depends},
          python3-gnucash,
          python3-jinja2
 Description: tools to manipulate/export/import gnucash data
- tools to manipulate/export/import gnucash data
+ several tools to import/export and manipulate gnucash
+ data files.
+ .
+ this is python3 version for buster
