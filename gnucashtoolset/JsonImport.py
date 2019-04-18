@@ -29,7 +29,6 @@ from . import Query
 
 DENOM_QUANTITY=1000
 DENOM_PRICE=1000000
-DENOM_AMOUNT=1000
 # Gnucash encoding:
 GC_ENC='utf-8'
 
@@ -133,6 +132,14 @@ class JsonImport():
         if not account:
             raise LookupError('TransferAC not found')
 
+        if 'Currency' in d:
+            currency=book.get_table().lookup('CURRENCY', d['Currency'])
+        else:
+            currency=book.get_table().lookup('CURRENCY', 'CHF')
+
+        if not currency:
+            raise LookupError('Currency not found')
+
         if 'BillID' in d:
             invoice=book.InvoiceLookupByID(to_str(d['BillID'],GC_ENC))
 
@@ -146,8 +153,9 @@ class JsonImport():
              if invoice.IsPaid():
                  logging.warn('Invoice {0} is already paid, create credit note'.format(d.get('BillID','unknown')))
 
-             invoice.ApplyPayment( None,  account,
-                               GncNumeric(num=d.get('Amount',0)*DENOM_AMOUNT, denom=DENOM_AMOUNT), GncNumeric(1),
+             invoice.ApplyPayment( None, account,
+                               GncNumeric(int(d.get('Amount',0)*currency.get_fraction()), currency.get_fraction()),
+                               GncNumeric(1),
                                d.get('Date',datetime.date.today()),
                                to_str(d.get('Memo','File Import'),GC_ENC),
                                to_str(d.get('BillID','unknown'),GC_ENC))
@@ -202,9 +210,9 @@ class JsonImport():
             entry.SetAction(ent.get('Action',entry.GetAction()))
             entry.SetNotes(ent.get('Notes',entry.GetNotes()))
             entry.SetDescription(ent.get('Description',entry.GetDescription()))
-            entry.SetQuantity(GncNumeric(num=ent.get('Quantity',0)*DENOM_QUANTITY,denom=DENOM_QUANTITY))
+            entry.SetQuantity(GncNumeric(ent.get('Quantity',0)*DENOM_QUANTITY,DENOM_QUANTITY))
 
-            entry.SetInvPrice(GncNumeric(num=ent.get('Price',0)*DENOM_PRICE,denom=DENOM_PRICE))
+            entry.SetInvPrice(GncNumeric(ent.get('Price',0)*DENOM_PRICE,DENOM_PRICE))
            
             if 'TaxName' in ent:
                 try: book.TaxTableLookupByName(ent['TaxName'])
@@ -228,7 +236,7 @@ class JsonImport():
         
     def _initialize_split(self, book, amount, account, trans):
         split = Split(book)
-        split.SetValue(GncNumeric(num=amount*DENOM_QUANTITY,denom=DENOM_QUANTITY))
+        split.SetValue(GncNumeric(amount*DENOM_QUANTITY,DENOM_QUANTITY))
         split.SetAccount(account)
         split.SetParent(trans)
         return split
