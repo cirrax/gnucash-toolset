@@ -101,7 +101,7 @@ def get_bill(args):
   template=env.get_template(args.template.rpartition('/')[2])
 
   if '-' == args.out_file:
-      print template.render(invoice=invoice.to_dict()).encode('utf-8')
+      print(template.render(invoice=invoice.to_dict()).encode('utf-8'))
   else:
       with open(args.out_file, "wb") as f:
           f.write(template.render(invoice=invoice.to_dict()).encode('utf-8'))
