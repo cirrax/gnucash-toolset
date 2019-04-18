@@ -1,4 +1,12 @@
-python-gnucashtoolset (0.0.9-1) UNRELEASED; urgency=medium
+python-gnucashtoolset (0.1.0-1) UNRELEASED; urgency=medium
+
+  * new upstream version (for gnucash v3)
+  * use python3 (for buster)
+  * several debian package updates (lintian etc)
+
+ -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Thu, 18 Apr 2019 18:00:24 +0200
+
+python-gnucashtoolset (0.0.9-1) unstable; urgency=medium
 
   * fix session
 
