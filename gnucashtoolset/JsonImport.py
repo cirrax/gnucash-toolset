@@ -89,7 +89,7 @@ class JsonImport():
         if not to_ac:
             raise LookupError('TransferToAC ({0}) not found'.format(d['TransferToAC']))
 
-        if d.has_key('Currency'):
+        if 'Currency' in d:
             currency=book.get_table().lookup('CURRENCY', d['Currency'])
         else:
             currency=book.get_table().lookup('CURRENCY', 'CHF')
@@ -118,7 +118,7 @@ class JsonImport():
         if not account:
             raise LookupError('TransferAC not found')
 
-        if d.has_key('BillID'):
+        if 'BillID' in d:
             invoice=book.InvoiceLookupByID(to_str(d['BillID'],GC_ENC))
 
         if not invoice:
@@ -142,7 +142,7 @@ class JsonImport():
          
     def _invoice(self,book, d):
          
-        if d.has_key('Currency'):
+        if 'Currency' in d:
             currency=book.get_table().lookup('CURRENCY', d['Currency'])
         else:
             currency=book.get_table().lookup('CURRENCY', 'CHF')
@@ -150,9 +150,9 @@ class JsonImport():
         if not currency:
             raise LookupError('Currency not found')
 
-        if d.has_key('JobID'):
+        if 'JobID' in d:
             for j in Query.getJobs(book):
-                if j.GetID() == d['JobID'].encode(GC_ENC):
+                if j.GetID() == d['JobID']:
                     owner=j
                     customer=j.GetOwner()
 
@@ -168,7 +168,7 @@ class JsonImport():
         if not owner:
             raise LookupError('Customer not found')
 
-        if not d.has_key('ID'):
+        if not 'ID' in d:
             d['ID'] = book.InvoiceNextID(owner)
 
         self.obj = gcInvoice(book=book, id=d['ID'], currency=currency, owner=owner)
@@ -191,7 +191,7 @@ class JsonImport():
 
             entry.SetInvPrice(GncNumeric(num=ent.get('Price',0)*DENOM_PRICE,denom=DENOM_PRICE))
            
-            if ent.has_key('TaxName'):
+            if 'TaxName' in ent:
                 try: book.TaxTableLookupByName(ent['TaxName'])
                 except: raise LookupError('TaxName not found')
                 entry.SetInvTaxTable(book.TaxTableLookupByName(ent['TaxName']))
