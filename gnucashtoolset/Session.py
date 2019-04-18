@@ -24,8 +24,8 @@ from gnucash import \
 def startSession(file, ignore_lock=False, is_new=False):
     try:
         return Session( file, ignore_lock=ignore_lock, is_new=is_new)
-    except GnuCashBackendException, backend_exception:
-       assert( ERR_FILEIO_FILE_NOT_FOUND in backend_exception.errors)
+    except GnuCashBackendException:
+        assert( ERR_FILEIO_FILE_NOT_FOUND in backend_exception.errors)
 
 def endSession(session):
     session.end()

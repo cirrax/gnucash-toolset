@@ -65,8 +65,8 @@ class Invoice(BaseAccounting):
             'Customer' : lambda x: x,
             'Job'      : lambda x: x.GetOwner(),
         }
-	if self.obj==None:
-	    return {}
+        if self.obj==None:
+            return {}
 
         return {
             'ID'            : self.obj.GetID().decode(GC_ENC),
@@ -91,16 +91,16 @@ class Invoice(BaseAccounting):
 
 class Tax(BaseAccounting):
     def to_dict(self):
-	if self.obj==None:
-	    return {}
+        if self.obj==None:
+            return {}
         return {
             'TaxName': self.obj.GetName().decode(GC_ENC),
         }
 
 class Account(BaseAccounting):
     def to_dict(self):
-	if self.obj==None:
-	    return {}
+        if self.obj==None:
+            return {}
         return {
             'Name' : self.obj.GetName().decode(GC_ENC),
             'Code' : self.obj.GetCode().decode(GC_ENC),
@@ -110,8 +110,8 @@ class Account(BaseAccounting):
 class Entry(BaseAccounting):
 
     def to_dict(self):
-	if self.obj==None:
-	    return {}
+        if self.obj==None:
+            return {}
         return {
             'Date'             : self.obj.GetDate(),
             'DateEntered'      : self.obj.GetDateEntered(),
@@ -138,8 +138,8 @@ class Entry(BaseAccounting):
 class Customer(BaseAccounting):
 
     def to_dict(self):
-	if self.obj==None:
-	     return {}
+        if self.obj==None:
+             return {}
         return {
              'ID'       : self.obj.GetID().decode(GC_ENC),
              'Name'     : self.obj.GetName().decode(GC_ENC),
@@ -153,8 +153,8 @@ class Customer(BaseAccounting):
 class Address(BaseAccounting):
 
     def to_dict(self):
-	if self.obj==None:
-	    return {}
+        if self.obj==None:
+            return {}
         return {
             'Name'  : self.obj.GetName().decode(GC_ENC),
             'Addr1' : self.obj.GetAddr1().decode(GC_ENC),
@@ -169,8 +169,7 @@ class Address(BaseAccounting):
 class Term(BaseAccounting):
     def to_dict(self):
         if self.obj==None:
-	    return {}
-
+            return {}
         return {
             'Name'        : self.obj.GetName().decode(GC_ENC),
             'Description' : self.obj.GetDescription().decode(GC_ENC),
