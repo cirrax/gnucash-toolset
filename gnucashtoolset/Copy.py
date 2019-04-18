@@ -19,10 +19,10 @@
 from gnucash import Account as Account
 from gnucash.gnucash_business import Customer, Vendor, Address, Job
 
-import Query as Query
+from . import Query as Query
 
 def CopyOptions(session, session_new):
-   print 'to be implemented'
+   print('to be implemented')
 
 def CopyAccounts(session, session_new):
     commodtable = session_new.book.get_table()
@@ -104,7 +104,7 @@ def _CopyAddress(address, address_new ):
     address_new.SetEmail(address.GetEmail())
 
 def CopyTerms(session,session_new):
-   print 'to be implemented'
+   print('to be implemented')
 
 def CopyTaxes(session,session_new):
-   print 'to be implemented'
+   print('to be implemented')

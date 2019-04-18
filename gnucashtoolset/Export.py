@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #   
 
-import Query   as Query
+from . import Query   as Query
 
 import csv
 
