@@ -69,7 +69,6 @@ setup(
     # https://packaging.python.org/en/latest/technical.html#install-requires-vs-requirements-files
     install_requires=[
         #'python-gnucash',
-        'python-esr',
         'jinja2',
     ],
 
@@ -79,7 +78,6 @@ setup(
     entry_points={
         'console_scripts': [
             'gnucash-toolset=gnucashtoolset.shell:gnucash_toolset',
-            'print-esr=gnucashtoolset.print_esr:run',
             'print-camt=gnucashtoolset.print_camt:run',
         ],
     },
