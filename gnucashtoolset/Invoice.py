@@ -25,8 +25,6 @@ from gnucash import GncNumeric
 import json
 from . import JsonImport
 
-GC_ENC='utf-8'
-
 def fromjson_filter(x, date_format):
     try:
         return json.loads(x,object_hook= lambda y: JsonImport.json_input(obj=y,date_format=date_format))
@@ -69,23 +67,23 @@ class Invoice(BaseAccounting):
             return {}
 
         return {
-            'ID'            : self.obj.GetID().decode(GC_ENC),
+            'ID'            : self.obj.GetID(),
             'DateDue'       : self.obj.GetDateDue(),
             'DateOpened'    : self.obj.GetDateOpened(),
             'DatePosted'    : self.obj.GetDatePosted(),
 
-            'Notes'         : (self.obj.GetNotes() or '').decode(GC_ENC),
+            'Notes'         : (self.obj.GetNotes() or ''),
             'Total'         : self.obj.GetTotal().to_double(),
             'TotalSubtotal' : self.obj.GetTotalSubtotal().to_double(),
             'TotalTax'      : self.obj.GetTotalTax().to_double(),
 
-            'TypeString'    : self.obj.GetTypeString().decode(GC_ENC),
+            'TypeString'    : self.obj.GetTypeString(),
 
             'Customer'      : Customer(obj=assign_customer[type(self.obj.GetOwner()).__name__](self.obj.GetOwner())).to_dict(),
 
             'entries'       : [ Entry(obj=entry).to_dict() for entry in self.obj.GetEntries()],
   
-            'currency'      : self.obj.GetCurrency().get_mnemonic().decode(GC_ENC),
+            'currency'      : self.obj.GetCurrency().get_mnemonic(),
             'terms'         : Term(obj=self.obj.GetTerms()).to_dict(),
         }
 
@@ -94,7 +92,7 @@ class Tax(BaseAccounting):
         if self.obj==None:
             return {}
         return {
-            'TaxName': self.obj.GetName().decode(GC_ENC),
+            'TaxName': self.obj.GetName(),
         }
 
 class Account(BaseAccounting):
@@ -102,9 +100,9 @@ class Account(BaseAccounting):
         if self.obj==None:
             return {}
         return {
-            'Name' : self.obj.GetName().decode(GC_ENC),
-            'Code' : self.obj.GetCode().decode(GC_ENC),
-            'Notes': (self.obj.GetNotes() or '').decode(GC_ENC),
+            'Name' : self.obj.GetName(),
+            'Code' : self.obj.GetCode(),
+            'Notes': (self.obj.GetNotes() or ''),
         }
 
 class Entry(BaseAccounting):
@@ -115,9 +113,9 @@ class Entry(BaseAccounting):
         return {
             'Date'             : self.obj.GetDate(),
             'DateEntered'      : self.obj.GetDateEntered(),
-            'Action'           : self.obj.GetAction().decode(GC_ENC),
-            'Description'      : self.obj.GetDescription().decode(GC_ENC),
-            'Notes'            : self.obj.GetNotes().decode(GC_ENC),
+            'Action'           : self.obj.GetAction(),
+            'Description'      : self.obj.GetDescription(),
+            'Notes'            : self.obj.GetNotes(),
             'Quantity'         : self.obj.GetQuantity().to_double(),
             'Price'            : self.obj.GetInvPrice().to_double(),
             'TaxIncluded'      : self.obj.GetInvTaxIncluded(),
@@ -141,10 +139,10 @@ class Customer(BaseAccounting):
         if self.obj==None:
              return {}
         return {
-             'ID'       : self.obj.GetID().decode(GC_ENC),
-             'Name'     : self.obj.GetName().decode(GC_ENC),
-             'Notes'    : self.obj.GetNotes().decode(GC_ENC),
-             'currency' : self.obj.GetCurrency().get_unique_name().decode(GC_ENC),
+             'ID'       : self.obj.GetID(),
+             'Name'     : self.obj.GetName(),
+             'Notes'    : self.obj.GetNotes(),
+             'currency' : self.obj.GetCurrency().get_unique_name(),
          
              'Addr'     : Address(obj=self.obj.GetAddr()).to_dict(),
              'ShipAddr' : Address(obj=self.obj.GetShipAddr()).to_dict(),
@@ -156,14 +154,14 @@ class Address(BaseAccounting):
         if self.obj==None:
             return {}
         return {
-            'Name'  : self.obj.GetName().decode(GC_ENC),
-            'Addr1' : self.obj.GetAddr1().decode(GC_ENC),
-            'Addr2' : self.obj.GetAddr2().decode(GC_ENC),
-            'Addr3' : self.obj.GetAddr3().decode(GC_ENC),
-            'Addr4' : self.obj.GetAddr4().decode(GC_ENC),
-            'Email' : self.obj.GetEmail().decode(GC_ENC),
-            'Fax'   : self.obj.GetFax().decode(GC_ENC),
-            'Phone' : self.obj.GetPhone().decode(GC_ENC),
+            'Name'  : self.obj.GetName(),
+            'Addr1' : self.obj.GetAddr1(),
+            'Addr2' : self.obj.GetAddr2(),
+            'Addr3' : self.obj.GetAddr3(),
+            'Addr4' : self.obj.GetAddr4(),
+            'Email' : self.obj.GetEmail(),
+            'Fax'   : self.obj.GetFax(),
+            'Phone' : self.obj.GetPhone(),
         }
 
 class Term(BaseAccounting):
@@ -171,7 +169,7 @@ class Term(BaseAccounting):
         if self.obj==None:
             return {}
         return {
-            'Name'        : self.obj.GetName().decode(GC_ENC),
-            'Description' : self.obj.GetDescription().decode(GC_ENC),
+            'Name'        : self.obj.GetName(),
+            'Description' : self.obj.GetDescription(),
             'DueDays'     : self.obj.GetDueDays(),
         }
