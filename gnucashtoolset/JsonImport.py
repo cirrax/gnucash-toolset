@@ -27,8 +27,6 @@ from gnucash import Session, Account, Transaction, Split, GncNumeric
 
 from . import Query
 
-DENOM_QUANTITY=1000
-DENOM_PRICE=1000000
 # Gnucash encoding:
 GC_ENC='utf-8'
 
@@ -210,9 +208,9 @@ class JsonImport():
             entry.SetAction(ent.get('Action',entry.GetAction()))
             entry.SetNotes(ent.get('Notes',entry.GetNotes()))
             entry.SetDescription(ent.get('Description',entry.GetDescription()))
-            entry.SetQuantity(GncNumeric(ent.get('Quantity',0)*DENOM_QUANTITY,DENOM_QUANTITY))
+            entry.SetQuantity(GncNumeric(ent.get('Quantity',0)))
 
-            entry.SetInvPrice(GncNumeric(ent.get('Price',0)*DENOM_PRICE,DENOM_PRICE))
+            entry.SetInvPrice(GncNumeric(ent.get('Price',0)))
            
             if 'TaxName' in ent:
                 try: book.TaxTableLookupByName(ent['TaxName'])
@@ -236,7 +234,7 @@ class JsonImport():
         
     def _initialize_split(self, book, amount, account, trans):
         split = Split(book)
-        split.SetValue(GncNumeric(amount*DENOM_QUANTITY,DENOM_QUANTITY))
+        split.SetValue(GncNumeric(amount))
         split.SetAccount(account)
         split.SetParent(trans)
         return split
