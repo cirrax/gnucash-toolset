@@ -1,4 +1,10 @@
-python-gnucashtoolset (0.1.0-1) UNRELEASED; urgency=medium
+python-gnucashtoolset (0.1.1-1) unstable; urgency=medium
+
+  * do not use DENOM for price/quantity 
+
+ -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Wed, 24 Apr 2019 14:13:14 +0200
+
+python-gnucashtoolset (0.1.0-1) unstable; urgency=medium
 
   * new upstream version (for gnucash v3)
   * use python3 (for buster)
