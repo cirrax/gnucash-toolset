@@ -47,6 +47,7 @@ create-copy    : Create a copy of gnucash data. Data copied are: Accounts, Custo
                  Data NOT copied: Bookings, Invoices, Bills, Transactions.
                  Data to be copied, but not yet implemented: Terms, Taxes, Employees, Jobs, Options.
                  This can be used to create a new file after closing period.
+                 Additionally an transaction is created with the opening balance.
                  Hint: use xml:///path/file for destination file ...
 copy-opening   : copy opening-amounts from another gnucash instance. (Not yet implemented).
 get-bill       : Export a bill from gnucash (in_file) into a jinja template.
