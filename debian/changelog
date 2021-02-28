@@ -1,3 +1,9 @@
+python-gnucashtoolset (0.2.0-1) unstable; urgency=medium
+
+  * add opening blance upon copy
+
+ -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Sun, 28 Feb 2021 12:26:49 +0100
+
 python-gnucashtoolset (0.1.1-1) unstable; urgency=medium
 
   * do not use DENOM for price/quantity 
@@ -18,14 +24,14 @@ python-gnucashtoolset (0.0.9-1) unstable; urgency=medium
 
  -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Mon, 18 Feb 2019 18:29:29 +0100
 
-python-gnucashtoolset (0.0.8-1) cirrax; urgency=medium
+python-gnucashtoolset (0.0.8-1) unstable; urgency=medium
 
   * new version 0.0.8
   * use uri's for files
 
  -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Mon, 18 Feb 2019 14:54:22 +0100
 
-python-gnucashtoolset (0.0.6-1) cirrax; urgency=medium
+python-gnucashtoolset (0.0.6-1) unstable; urgency=medium
 
   * New version 0.0.6
   * remove some debugging output
@@ -36,26 +42,26 @@ python-gnucashtoolset (0.0.6-1) cirrax; urgency=medium
 
  -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Wed, 06 Jan 2016 11:21:35 +0100
 
-python-gnucashtoolset (0.0.5-1) cirrax; urgency=medium
+python-gnucashtoolset (0.0.5-1) unstable; urgency=medium
 
   * New upstream version 0.0.5
 
  -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Wed, 04 Mar 2015 15:28:14 +0100
 
-python-gnucashtoolset (0.0.4-1) cirrax; urgency=medium
+python-gnucashtoolset (0.0.4-1) unstable; urgency=medium
 
   * New upstream version 0.0.4
   * add python-jinja2 as required package
 
  -- Benedikt Trefzer <benedikt.trefzer@cirrax.com>  Fri, 27 Feb 2015 00:36:53 +0100
 
-python-gnucashtoolset (0.0.3-1) cirrax; urgency=medium
+python-gnucashtoolset (0.0.3-1) unstable; urgency=medium
 
   * new upstream
 
  -- Benedikt Trefzer <trefzer@apollon.a2x.ch>  Tue, 17 Feb 2015 16:41:17 +0100
 
-python-gnucashtoolset (0.0.2-1) cirrax; urgency=medium
+python-gnucashtoolset (0.0.2-1) unstable; urgency=medium
 
   * new upstream
   * add print-esr for printing esr file from swiss post 
