@@ -17,7 +17,16 @@
 #   
 
 from gnucash import Account as Account
+from gnucash import Transaction, Split
 from gnucash.gnucash_business import Customer, Vendor, Address, Job
+import datetime
+
+from gnucash.gnucash_core_c import \
+    ACCT_TYPE_ASSET, ACCT_TYPE_BANK, ACCT_TYPE_CASH, ACCT_TYPE_CHECKING, \
+    ACCT_TYPE_CREDIT, ACCT_TYPE_EQUITY, ACCT_TYPE_EXPENSE, ACCT_TYPE_INCOME, \
+    ACCT_TYPE_LIABILITY, ACCT_TYPE_MUTUAL, ACCT_TYPE_PAYABLE, \
+    ACCT_TYPE_RECEIVABLE, ACCT_TYPE_STOCK, ACCT_TYPE_ROOT, ACCT_TYPE_TRADING
+
 
 from . import Query as Query
 
@@ -26,17 +35,35 @@ def CopyOptions(session, session_new):
 
 def CopyAccounts(session, session_new):
     commodtable = session_new.book.get_table()
-    _recursiveCopyAccounts(session, session_new, session.book.get_root_account(), session_new.book.get_root_account(), commodtable)
+    openbalance = _recursiveCopyAccounts(session, session_new, session.book.get_root_account(), session_new.book.get_root_account(), commodtable)
+
+    # now let's create an opening balance
+    trans = Transaction(session_new.book)
+    trans.BeginEdit()
+    trans.SetCurrency(session_new.book.get_table().lookup('CURRENCY', 'CHF'))
+    date=datetime.date.today()
+    trans.SetDate(date.day, date.month, date.year)
+    trans.SetDescription('opening balance')
+
+    for ob in openbalance:
+        split=Split(session_new.book)
+        split.SetAccount(ob['account'])
+        split.SetValue(ob['balance'])
+        split.SetAmount(ob['balance'])
+        split.SetMemo(ob['account'].GetName())
+        split.SetParent(trans)
+
+    trans.CommitEdit()
 
 def _recursiveCopyAccounts(session, session_new, account, account_new, commodtable):
     attributes=['Hidden' , 'ReconcileChildrenStatus', 'TaxUSCode', 'Code', 'LastNum', 'TaxUSCopyNumber',
                 'Color', 'TaxUSPayerNameSource', 'Name', 'Type', 'NonStdSCU', 'Description', 'Notes', 
                 'SortOrder', 'Filter', 'Placeholder', 'TaxRelated' ]
-            
+    openbalance = []
     for acc in account.get_children():
          acc_new=Account(session_new.book)
          account_new.append_child(acc_new)
-         _recursiveCopyAccounts(session, session_new, acc, acc_new, commodtable)
+         openbalance = openbalance + _recursiveCopyAccounts(session, session_new, acc, acc_new, commodtable)
 
     for attrib in attributes:
           getattr(account_new, 'Set' + attrib)(getattr(account, 'Get' + attrib)() )
@@ -48,6 +75,23 @@ def _recursiveCopyAccounts(session, session_new, account, account_new, commodtab
        mnemonic = orig_commodity.get_mnemonic()
        new_commodity = commodtable.lookup(namespace, mnemonic)
        account_new.SetCommodity(new_commodity)
+
+    # save balance for creating opening
+    if account_new.GetType() in [ 
+         ACCT_TYPE_ASSET, ACCT_TYPE_BANK,
+         ACCT_TYPE_CASH, ACCT_TYPE_CREDIT,
+         ACCT_TYPE_ASSET, ACCT_TYPE_LIABILITY,
+         ACCT_TYPE_STOCK, ACCT_TYPE_MUTUAL,
+         ACCT_TYPE_EQUITY, ACCT_TYPE_RECEIVABLE,
+         ACCT_TYPE_PAYABLE, ACCT_TYPE_TRADING ]:
+
+      fb = account.GetBalance()
+      if fb.num() != 0:
+        openbalance.append( {
+            'account': account_new,
+            'balance': account.GetBalance(),
+        })
+    return openbalance
 
 
 def CopyCustomers(session,session_new):
