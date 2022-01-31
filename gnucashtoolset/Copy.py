@@ -31,7 +31,7 @@ from gnucash.gnucash_core_c import \
 from . import Query as Query
 
 def CopyOptions(session, session_new):
-   print('to be implemented')
+    print('CopyOptions: to be implemented')
 
 def CopyAccounts(session, session_new):
     commodtable = session_new.book.get_table()
@@ -147,8 +147,12 @@ def _CopyAddress(address, address_new ):
     address_new.SetFax(address.GetFax())
     address_new.SetEmail(address.GetEmail())
 
+
+def CopyScheduled(session,session_new):
+    print('CopyScheduled: to be implemented')
+
 def CopyTerms(session,session_new):
-   print('to be implemented')
+    print('CopyTerms: to be implemented')
 
 def CopyTaxes(session,session_new):
-   print('to be implemented')
+    print('CopyTaxes: to be implemented')

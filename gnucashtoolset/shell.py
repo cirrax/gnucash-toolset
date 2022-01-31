@@ -45,7 +45,8 @@ csv-customers  : Create a CSV file with all customers. Ready to import with gnuc
 csv-vendors    : Create a CSV file with all vendors. Ready to import with gnucash.
 create-copy    : Create a copy of gnucash data. Data copied are: Accounts, Customers, Vendors.
                  Data NOT copied: Bookings, Invoices, Bills, Transactions.
-                 Data to be copied, but not yet implemented: Terms, Taxes, Employees, Jobs, Options.
+                 Data to be copied, but not yet implemented: Scheduled Transactions,Terms, Taxes,
+                 Employees, Jobs, Options.
                  This can be used to create a new file after closing period.
                  Additionally an transaction is created with the opening balance.
                  Hint: use xml:///path/file for destination file ...
@@ -83,6 +84,7 @@ def create_copy(args):
   Copy.CopyAccounts(session,session_new)
   Copy.CopyTerms(session,session_new)
   Copy.CopyTaxes(session,session_new)
+  Copy.CopyScheduled(session,session_new)
   Copy.CopyCustomers(session,session_new)
   Copy.CopyVendors(session,session_new)
 
