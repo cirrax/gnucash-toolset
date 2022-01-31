@@ -32,8 +32,11 @@ def run():
   e = xml.etree.ElementTree.parse(args.file).getroot()
 
   for notification in e.findall('./s:BkToCstmrDbtCdtNtfctn/s:Ntfctn/s:Ntry',x ):
-    info = notification.find('./s:AddtlNtryInf',x).text
-    print('Header:       {}'.format(' '.join(info.split())))
+    try:
+      info = notification.find('./s:AddtlNtryInf',x).text
+      print('Header:       {}'.format(' '.join(info.split())))
+    except:
+      print('Header:       {}'.format('no info'))
     print('booking date: {}'.format(notification.find('./s:BookgDt/s:Dt',x).text))
     print('valuta date:  {}'.format(notification.find('./s:ValDt/s:Dt',x).text))
     print('total amount: {}'.format(notification.find('./s:Amt',x).text))
@@ -45,5 +48,8 @@ def run():
       print('amount:       {}'.format(detail.find('./s:Amt',x).text))
       print('refnum:       {}'.format(detail.find('./s:RmtInf/s:Strd/s:CdtrRefInf/s:Ref',x).text))
       print('debitor:      {}'.format(detail.find('./s:RltdPties/s:Dbtr/',x).text))
-      print('debitor IBAN: {}'.format(detail.find('./s:RltdPties/s:DbtrAcct/s:Id/s:IBAN',x).text))
+      try:
+        print('debitor IBAN: {}'.format(detail.find('./s:RltdPties/s:DbtrAcct/s:Id/s:IBAN',x).text))
+      except:
+        print('debitor IBAN: {}'.format('unknown'))
       print('---------------')
