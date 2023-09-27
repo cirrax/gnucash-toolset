@@ -84,6 +84,18 @@ def getVendors(book):
 
     return vendors
 
+def getBillTerm(book):
+
+    query = gnucash.Query()
+    query.search_for('gncBillTerm')
+    query.set_book(book)
+    scheduled  = []
+
+    for result in query.run():
+         scheduled.append(gnucash.gnucash_business.BillTerm(instance=result))
+
+    query.destroy()
+    return scheduled
 
 #res=getCustomers(session.book)
 
